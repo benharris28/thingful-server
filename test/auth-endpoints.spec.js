@@ -48,6 +48,18 @@ requiredFields.forEach(field => {
          error: `Missing '${field}' in request body`,
        })
    })
- })
-  })
+
+   it(`responds 400 'invalid user_name or password' when bad user_name`, () => {
+    const userInvalidUser = { user_name: 'user-not', password: 'existy' }
+    return supertest(app)
+      .post('/api/auth/login')
+      .send(userInvalidUser)
+      .expect(400, { error: `Incorrect user_name or password` })
+
+    })
+})
+
+   
+
+})
 })
