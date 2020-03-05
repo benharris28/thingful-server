@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 
+// This file is used to execute queries on the db using knex specifically for authentication purposes 
+// and to be used by auth files
 const AuthService = {
     getUserWithUserName(db, user_name) {
       return db('thingful_users')
@@ -19,13 +21,13 @@ const AuthService = {
         algorithm: 'HS256',
       })
     },
+
+    verifyJwt(token) {
+      return jwt.verify(token, config.JWT_SECRET, {
+        algorithms: ['HS256'],
+      })
+    }
     
-    parseBasicToken(token) {
-      return Buffer
-        .from(token, 'base64')
-        .toString()
-        .split(':')
-    },
   }
   
   module.exports = AuthService
